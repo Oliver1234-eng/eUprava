@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  katastar-service:
+    image: katastar-image
+    ports:
+      - "8081:8081"
+  maticar-service:
+    image: maticar-image
+    ports:
+      - "8082:8082"
+  notar-service:
+    image: notar-image
+    ports:
+      - "8083:8083"
