@@ -1,15 +1,77 @@
 version: '3.8'
 
 services:
+  katastar-db:
+    image: mysql:8.0
+    restart: always
+    #ports:
+    #  - 3307:3306
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: katastar
+    volumes:
+      - db_data:/var/lib/mysql
+    user: root
+
+  maticar-db:
+    image: mysql:8.0
+    restart: always
+    #ports:
+    #  - 3307:3306
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: maticar
+    volumes:
+      - db_data:/var/lib/mysql
+    user: root
+
+  notar-db:
+    image: mysql:8.0
+    restart: always
+    #ports:
+    #  - 3307:3306
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: notar
+    volumes:
+      - db_data:/var/lib/mysql
+    user: root
+
   katastar-service:
     image: katastar-image
     ports:
       - "8081:8081"
+    depends_on:
+      - katastar-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://katastar-db:3306/katastar?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
   maticar-service:
     image: maticar-image
     ports:
       - "8082:8082"
+    depends_on:
+      - maticar-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://maticar-db:3306/maticar?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
   notar-service:
     image: notar-image
     ports:
       - "8083:8083"
+    depends_on:
+      - notar-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://notar-db:3306/notar?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+volumes:
+  db_data:
