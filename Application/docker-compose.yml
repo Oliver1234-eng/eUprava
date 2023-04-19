@@ -4,41 +4,47 @@ services:
   katastar-db:
     image: mysql:8.0
     restart: always
-    #ports:
-    #  - 3307:3306
+    ports:
+      - "3307:3306"
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: katastar
     volumes:
-      - db_data:/var/lib/mysql
+      - ./katastar_db/:/var/lib/mysql
     user: root
+    networks:
+      - network
 
   maticar-db:
     image: mysql:8.0
     restart: always
-    #ports:
-    #  - 3307:3306
+    ports:
+      - "3309:3306"
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: maticar
     volumes:
-      - db_data:/var/lib/mysql
+      - ./maticar_db:/var/lib/mysql
     user: root
+    networks:
+      - network
 
   notar-db:
     image: mysql:8.0
     restart: always
-    #ports:
-    #  - 3307:3306
+    ports:
+      - 3308:3306
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: notar
     volumes:
-      - db_data:/var/lib/mysql
+      - ./notar_db:/var/lib/mysql
     user: root
+    networks:
+      - network
 
   katastar-service:
     image: katastar-image
@@ -50,6 +56,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://katastar-db:3306/katastar?useSSL=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - network
 
   maticar-service:
     image: maticar-image
@@ -61,6 +69,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://maticar-db:3306/maticar?useSSL=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - network
 
   notar-service:
     image: notar-image
@@ -72,6 +82,12 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://notar-db:3306/notar?useSSL=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - network
 
 volumes:
   db_data:
+
+networks:
+  network:
+    driver: bridge
