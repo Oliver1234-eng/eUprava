@@ -1,6 +1,20 @@
 version: '3.8'
 
 services:
+
+  katastar-service:
+    image: katastar-image
+    ports:
+      - "8081:8081"
+    depends_on:
+      - katastar-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://katastar-db:3306/katastar
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - network
+
   katastar-db:
     image: mysql:8.0
     restart: always
@@ -13,6 +27,19 @@ services:
     volumes:
       - ./katastar_db/:/var/lib/mysql
     user: root
+    networks:
+      - network
+
+  maticar-service:
+    image: maticar-image
+    ports:
+      - "8082:8082"
+    depends_on:
+      - maticar-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://maticar-db:3306/maticar
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     networks:
       - network
 
@@ -31,6 +58,19 @@ services:
     networks:
       - network
 
+  notar-service:
+    image: notar-image
+    ports:
+      - "8083:8083"
+    depends_on:
+      - notar-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://notar-db:3306/notar
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - network
+
   notar-db:
     image: mysql:8.0
     restart: always
@@ -43,45 +83,6 @@ services:
     volumes:
       - ./notar_db:/var/lib/mysql
     user: root
-    networks:
-      - network
-
-  katastar-service:
-    image: katastar-image
-    ports:
-      - "8081:8081"
-    depends_on:
-      - katastar-db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://katastar-db:3306/katastar?useSSL=false&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-    networks:
-      - network
-
-  maticar-service:
-    image: maticar-image
-    ports:
-      - "8082:8082"
-    depends_on:
-      - maticar-db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://maticar-db:3306/maticar?useSSL=false&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-    networks:
-      - network
-
-  notar-service:
-    image: notar-image
-    ports:
-      - "8083:8083"
-    depends_on:
-      - notar-db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://notar-db:3306/notar?useSSL=false&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
     networks:
       - network
 
