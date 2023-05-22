@@ -3,6 +3,7 @@ package notar.service.functionality;
 import notar.model.dto.TerminDTO;
 import notar.model.entity.Termin;
 
+import java.time.LocalTime;
 import java.util.List;
 
 public interface TerminService {
@@ -24,4 +25,7 @@ public interface TerminService {
     public Termin zapocniTermin(Long id);
 
     public Termin overiTermin(Long id);
+
+    public List<LocalTime> slobodniTermini(TerminDTO terminDTO);
+
 }

@@ -31,7 +31,6 @@ public class Ugovor {
     @Enumerated(EnumType.STRING)
     private VrstaUgovora vrstaUgovora;
 
-
     @Column
     private LocalDateTime datumOvereUgovora;
 
