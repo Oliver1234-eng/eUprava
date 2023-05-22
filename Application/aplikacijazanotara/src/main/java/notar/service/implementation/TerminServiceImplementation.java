@@ -8,8 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TerminServiceImplementation implements TerminService {
@@ -47,6 +52,7 @@ public class TerminServiceImplementation implements TerminService {
     private UgovorRepository ugovorRepository;
     @Override
     public Termin createTermin(TerminDTO terminDTO) {
+
         Termin termin = new Termin();
         termin.setKancelarija(kancelarijaService.findById(terminDTO.getKancelarija_id()));
         termin.setDatumIvremeSastanka(terminDTO.getDatumIvremeSastanka());
@@ -140,6 +146,36 @@ public class TerminServiceImplementation implements TerminService {
 
         return termin;
     }
+
+    @Override
+    public List<LocalTime> slobodniTermini(TerminDTO terminDTO) {
+
+        List<Termin> zauzetiTermini = findByNotar(terminDTO.getNotar_id());
+        List<LocalTime> termini = new ArrayList<LocalTime>(){};
+        for(int x = 0; x < 24; x++){
+            LocalTime termin = LocalTime.of(8, 0, 0).plusMinutes(x*30);
+            termini.add(termin);
+        }
+        List<LocalTime> slobodniTermini = new ArrayList<LocalTime>(){};
+
+
+
+        for(int j = 0; j<termini.size(); j++){
+            boolean overlap = false;
+            for(int i = 0; i < zauzetiTermini.size(); i++) {
+            if (
+                    termini.get(j).plusMinutes(1).isAfter(zauzetiTermini.get(i).getDatumIvremeSastanka().toLocalTime())
+                            &&
+                            termini.get(j).plusMinutes(29).isBefore(zauzetiTermini.get(i).getDatumIvremeSastanka().plusMinutes(30).toLocalTime())
+            )
+                overlap = true;
+        }
+            if(overlap==false) slobodniTermini.add(termini.get(j));
+        }
+       // List<LocalTime> slobodniTermini1 = slobodniTermini.stream().distinct().collect(Collectors.toList());
+        return slobodniTermini;
+    }
+
 
 
 }

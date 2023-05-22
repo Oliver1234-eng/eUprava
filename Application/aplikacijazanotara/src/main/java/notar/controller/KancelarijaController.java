@@ -23,7 +23,6 @@ public class KancelarijaController {
         Kancelarija newKancelarija = kancelarijaService.createKancelarija(kancelarijaDTO);
         return new ResponseEntity<Kancelarija>(newKancelarija, HttpStatus.CREATED);
     }
-
     //get all kancelarija
 
     @GetMapping(value = "all/")
@@ -36,6 +35,4 @@ public class KancelarijaController {
         Kancelarija kancelarija = kancelarijaService.findById(id);
         return new ResponseEntity<Kancelarija>(kancelarija, HttpStatus.OK);
     }
-
-
 }

@@ -9,8 +9,10 @@ import notar.service.functionality.TerminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @CrossOrigin
@@ -21,8 +23,14 @@ public class TerminController {
     @Autowired
     private TerminService terminService;
 
+    @GetMapping(value="slobodniTermini/", consumes = "application/json")
+    public ResponseEntity<List<LocalTime>> rezervisiTermin(@RequestBody TerminDTO terminDTO) {
+        return new ResponseEntity<>(terminService.slobodniTermini(terminDTO), HttpStatus.OK);
+    }
+
     @PostMapping(value="add/", consumes = "application/json")
     public ResponseEntity<Termin> saveTermin(@RequestBody TerminDTO terminDTO) {
+
         Termin newTermin = terminService.createTermin(terminDTO);
         return new ResponseEntity<Termin>(newTermin, HttpStatus.CREATED);
     }

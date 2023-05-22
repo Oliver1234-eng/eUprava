@@ -36,20 +36,28 @@ public class Termin {
     private LocalDateTime datumIvremeSastanka;
     @Column
     private short vremeTrajanja;
+
     @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ugovor_id", referencedColumnName = "id", nullable = true)
     private  Ugovor ugovor;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "svedok_termin")
     List<Svedok> svedoci;
     @JsonIgnore
     @ManyToMany(mappedBy = "stranka_termin")
     List<Stranka> stranke;
+
     @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "notar_id", referencedColumnName = "id", nullable = true)
     private Notar notar;
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "stranka_id", referencedColumnName = "id", nullable = true)
+    private Stranka stranka;
 
     @Column
     @Enumerated(EnumType.STRING)
