@@ -2,24 +2,19 @@ package com.katastar.aplikacijazakatastar.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "nepokretnost")
 public class Nepokretnost {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @NotBlank(message = "Broj parcele je obavezno polje!")
+    @Column(name = "broj_parcele", nullable = false)
+    private String brojParcele;
 
     @NotBlank(message = "Adresa je obavezno polje!")
     @Column(name = "adresa", nullable = false)
     private String adresa;
-
-    @NotBlank(message = "Broj parcele je obavezno polje!")
-    @Column(name = "broj_parcele", nullable = false)
-    private String brojParcele;
 
     @Column(name = "broj_dela_parcele", nullable = false)
     private int brojDelaParcele;
@@ -39,60 +34,33 @@ public class Nepokretnost {
     @Column(name = "nacin_koriscenja_objekta", nullable = false)
     private NacinKoriscenjaObjekta nacinKoriscenjaObjekta;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "katastar_korisnicko_ime")
-    private Katastar katastar;
+    @NotBlank(message = "Katastar je obavezno polje!")
+    @Column(name = "katastar", nullable = false)
+    private String katastar;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "gradjanin_korisnicko_ime")
-    private Gradjanin gradjanin;
+    @NotBlank(message = "Stari vlasnik je obavezno polje!")
+    @Column(name = "stari_vlasnik", nullable = false)
+    private String stariVlasnik;
 
-    @OneToMany(mappedBy = "nepokretnost", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<IstorijaPromena> istorijePromena = new HashSet<IstorijaPromena>();
+    @NotBlank(message = "Novi vlasnik je obavezno polje!")
+    @Column(name = "novi_vlasnik", nullable = false)
+    private String noviVlasnik;
 
     public Nepokretnost() {
 
     }
 
-    public Nepokretnost(int id, String adresa, String brojParcele, int brojDelaParcele, double povrsina, String potes, NacinKoriscenjaZemljista nacinKoriscenjaZemljista, NacinKoriscenjaObjekta nacinKoriscenjaObjekta, Katastar katastar, Gradjanin gradjanin) {
-        this.id = id;
-        this.adresa = adresa;
+    public Nepokretnost(String brojParcele, String adresa, int brojDelaParcele, double povrsina, String potes, NacinKoriscenjaZemljista nacinKoriscenjaZemljista, NacinKoriscenjaObjekta nacinKoriscenjaObjekta, String katastar, String stariVlasnik, String noviVlasnik) {
         this.brojParcele = brojParcele;
+        this.adresa = adresa;
         this.brojDelaParcele = brojDelaParcele;
         this.povrsina = povrsina;
         this.potes = potes;
         this.nacinKoriscenjaZemljista = nacinKoriscenjaZemljista;
         this.nacinKoriscenjaObjekta = nacinKoriscenjaObjekta;
         this.katastar = katastar;
-        this.gradjanin = gradjanin;
-    }
-
-    public Nepokretnost(String adresa, String brojParcele, int brojDelaParcele, double povrsina, String potes, NacinKoriscenjaZemljista nacinKoriscenjaZemljista, NacinKoriscenjaObjekta nacinKoriscenjaObjekta, Katastar katastar, Gradjanin gradjanin) {
-        this.adresa = adresa;
-        this.brojParcele = brojParcele;
-        this.brojDelaParcele = brojDelaParcele;
-        this.povrsina = povrsina;
-        this.potes = potes;
-        this.nacinKoriscenjaZemljista = nacinKoriscenjaZemljista;
-        this.nacinKoriscenjaObjekta = nacinKoriscenjaObjekta;
-        this.katastar = katastar;
-        this.gradjanin = gradjanin;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getAdresa() {
-        return adresa;
-    }
-
-    public void setAdresa(String adresa) {
-        this.adresa = adresa;
+        this.stariVlasnik = stariVlasnik;
+        this.noviVlasnik = noviVlasnik;
     }
 
     public String getBrojParcele() {
@@ -101,6 +69,14 @@ public class Nepokretnost {
 
     public void setBrojParcele(String brojParcele) {
         this.brojParcele = brojParcele;
+    }
+
+    public String getAdresa() {
+        return adresa;
+    }
+
+    public void setAdresa(String adresa) {
+        this.adresa = adresa;
     }
 
     public int getBrojDelaParcele() {
@@ -143,38 +119,28 @@ public class Nepokretnost {
         this.nacinKoriscenjaObjekta = nacinKoriscenjaObjekta;
     }
 
-    public Katastar getKatastar() {
+    public String getKatastar() {
         return katastar;
     }
 
-    public void setKatastar(Katastar katastar) {
+    public void setKatastar(String katastar) {
         this.katastar = katastar;
     }
 
-    public Gradjanin getGradjanin() {
-        return gradjanin;
+    public String getStariVlasnik() {
+        return stariVlasnik;
     }
 
-    public void setGradjanin(Gradjanin gradjanin) {
-        this.gradjanin = gradjanin;
+    public void setStariVlasnik(String stariVlasnik) {
+        this.stariVlasnik = stariVlasnik;
     }
 
-    public Set<IstorijaPromena> getIstorijePromena() {
-        return istorijePromena;
+    public String getNoviVlasnik() {
+        return noviVlasnik;
     }
 
-    public void setIstorijePromena(Set<IstorijaPromena> istorijePromena) {
-        this.istorijePromena = istorijePromena;
-    }
-
-    public void addIstorijaPromena(IstorijaPromena istorijaPromena) {
-        istorijePromena.add(istorijaPromena);
-        istorijaPromena.setNepokretnost(this);
-    }
-
-    public void removeIstorijaPromena(IstorijaPromena istorijaPromena) {
-        istorijePromena.remove(istorijaPromena);
-        istorijaPromena.setNepokretnost(null);
+    public void setNoviVlasnik(String noviVlasnik) {
+        this.noviVlasnik = noviVlasnik;
     }
 
     @Override
@@ -186,7 +152,7 @@ public class Nepokretnost {
             return false;
         }
         Nepokretnost n = (Nepokretnost) o;
-        return id != null && id.equals(n.getId());
+        return brojParcele != null && brojParcele.equals(n.getBrojParcele());
     }
 
     @Override
@@ -197,17 +163,16 @@ public class Nepokretnost {
     @Override
     public String toString() {
         return "Nepokretnost{" +
-                "id=" + id +
+                "brojParcele='" + brojParcele + '\'' +
                 ", adresa='" + adresa + '\'' +
-                ", brojParcele='" + brojParcele + '\'' +
                 ", brojDelaParcele=" + brojDelaParcele +
                 ", povrsina=" + povrsina +
                 ", potes='" + potes + '\'' +
                 ", nacinKoriscenjaZemljista=" + nacinKoriscenjaZemljista +
                 ", nacinKoriscenjaObjekta=" + nacinKoriscenjaObjekta +
-                ", radnikUKatastru=" + katastar +
-                ", gradjanin=" + gradjanin +
-                ", istorijePromena=" + istorijePromena +
+                ", katastar='" + katastar + '\'' +
+                ", stariVlasnik='" + stariVlasnik + '\'' +
+                ", noviVlasnik='" + noviVlasnik + '\'' +
                 '}';
     }
 }

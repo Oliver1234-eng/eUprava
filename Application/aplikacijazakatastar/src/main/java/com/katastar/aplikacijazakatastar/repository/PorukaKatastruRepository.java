@@ -1,10 +1,9 @@
 package com.katastar.aplikacijazakatastar.repository;
 
-import com.katastar.aplikacijazakatastar.model.Nepokretnost;
+import com.katastar.aplikacijazakatastar.model.PorukaKatastru;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NepokretnostRepository extends JpaRepository<Nepokretnost, String> {
-
+public interface PorukaKatastruRepository extends JpaRepository<PorukaKatastru, Integer> {
 }

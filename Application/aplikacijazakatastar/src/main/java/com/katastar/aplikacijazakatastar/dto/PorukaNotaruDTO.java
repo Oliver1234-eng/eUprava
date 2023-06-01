@@ -1,28 +1,25 @@
 package com.katastar.aplikacijazakatastar.dto;
 
+import com.katastar.aplikacijazakatastar.model.PorukaNotaru;
 
-import com.katastar.aplikacijazakatastar.model.IstorijaPromena;
-
-public class IstorijaPromenaDTO {
+public class PorukaNotaruDTO {
 
     private Integer id;
     private String datumPromene;
     private String brojParcele;
-    private String katastar;
     private String stariVlasnik;
     private String noviVlasnik;
 
-    public IstorijaPromenaDTO() {
+    public PorukaNotaruDTO() {
 
     }
 
-    public IstorijaPromenaDTO(IstorijaPromena istorijaPromena) {
-        id = istorijaPromena.getId();
-        datumPromene = istorijaPromena.getDatumPromene();
-        brojParcele = istorijaPromena.getBrojParcele();
-        katastar = istorijaPromena.getKatastar();
-        stariVlasnik = istorijaPromena.getStariVlasnik();
-        noviVlasnik = istorijaPromena.getNoviVlasnik();
+    public PorukaNotaruDTO(PorukaNotaru porukaNotaru) {
+        id = porukaNotaru.getId();
+        datumPromene = porukaNotaru.getDatumPromene();
+        brojParcele = porukaNotaru.getBrojParcele();
+        stariVlasnik = porukaNotaru.getStariVlasnik();
+        noviVlasnik = porukaNotaru.getNoviVlasnik();
     }
 
     public Integer getId() {
@@ -41,22 +38,6 @@ public class IstorijaPromenaDTO {
         this.datumPromene = datumPromene;
     }
 
-    public String getBrojParcele() {
-        return brojParcele;
-    }
-
-    public void setBrojParcele(String brojParcele) {
-        this.brojParcele = brojParcele;
-    }
-
-    public String getKatastar() {
-        return katastar;
-    }
-
-    public void setKatastar(String katastar) {
-        this.katastar = katastar;
-    }
-
     public String getStariVlasnik() {
         return stariVlasnik;
     }
@@ -71,5 +52,13 @@ public class IstorijaPromenaDTO {
 
     public void setNoviVlasnik(String noviVlasnik) {
         this.noviVlasnik = noviVlasnik;
+    }
+
+    public String getBrojParcele() {
+        return brojParcele;
+    }
+
+    public void setBrojParcele(String brojParcele) {
+        this.brojParcele = brojParcele;
     }
 }

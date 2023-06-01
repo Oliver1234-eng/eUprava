@@ -1,10 +1,7 @@
 package com.katastar.aplikacijazakatastar.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "katastar")
@@ -48,12 +45,6 @@ public class Katastar {
     @NotBlank(message = "Lozinka je obavezno polje!")
     @Column(name = "lozinka", nullable = false)
     private String lozinka;
-
-    @OneToMany(mappedBy = "katastar", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Nepokretnost> nepokretnosti = new HashSet<Nepokretnost>();
-
-    @OneToMany(mappedBy = "katastar", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<IstorijaPromena> istorijePromena = new HashSet<IstorijaPromena>();
 
     public Katastar() {
 
@@ -164,42 +155,6 @@ public class Katastar {
         this.lozinka = lozinka;
     }
 
-    public Set<Nepokretnost> getNepokretnosti() {
-        return nepokretnosti;
-    }
-
-    public void setNepokretnosti(Set<Nepokretnost> nepokretnosti) {
-        this.nepokretnosti = nepokretnosti;
-    }
-
-    public Set<IstorijaPromena> getIstorijePromena() {
-        return istorijePromena;
-    }
-
-    public void setIstorijePromena(Set<IstorijaPromena> istorijePromena) {
-        this.istorijePromena = istorijePromena;
-    }
-
-    public void addNepokretnost(Nepokretnost nepokretnost) {
-        nepokretnosti.add(nepokretnost);
-        nepokretnost.setKatastar(this);
-    }
-
-    public void removeNepokretnost(Nepokretnost nepokretnost) {
-        nepokretnosti.remove(nepokretnost);
-        nepokretnost.setKatastar(null);
-    }
-
-    public void addIstorijaPromena(IstorijaPromena istorijaPromena) {
-        istorijePromena.add(istorijaPromena);
-        istorijaPromena.setKatastar(this);
-    }
-
-    public void removeIstorijaPromena(IstorijaPromena istorijaPromena) {
-        istorijePromena.remove(istorijaPromena);
-        istorijaPromena.setKatastar(null);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -233,8 +188,6 @@ public class Katastar {
                 ", adresa='" + adresa + '\'' +
                 ", korisnickoIme='" + korisnickoIme + '\'' +
                 ", lozinka='" + lozinka + '\'' +
-                ", nepokretnosti=" + nepokretnosti +
-                ", istorijePromena=" + istorijePromena +
                 '}';
     }
 }

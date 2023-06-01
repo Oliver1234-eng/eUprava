@@ -1,11 +1,6 @@
 package com.katastar.aplikacijazakatastar.controller;
 
-import com.katastar.aplikacijazakatastar.dto.IstorijaPromenaDTO;
-import com.katastar.aplikacijazakatastar.dto.KatastarDTO;
 import com.katastar.aplikacijazakatastar.dto.NepokretnostDTO;
-import com.katastar.aplikacijazakatastar.model.Gradjanin;
-import com.katastar.aplikacijazakatastar.model.IstorijaPromena;
-import com.katastar.aplikacijazakatastar.model.Katastar;
 import com.katastar.aplikacijazakatastar.model.Nepokretnost;
 import com.katastar.aplikacijazakatastar.service.GradjaninService;
 import com.katastar.aplikacijazakatastar.service.KatastarService;
@@ -17,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "api/katastar/nepokretnosti")
@@ -25,12 +19,6 @@ public class NepokretnostController {
 
     @Autowired
     private NepokretnostService nepokretnostService;
-
-    @Autowired
-    private KatastarService katastarService;
-
-    @Autowired
-    private GradjaninService gradjaninService;
 
     @GetMapping
     public ResponseEntity<List<NepokretnostDTO>> getNepokretnosti() {
@@ -45,10 +33,10 @@ public class NepokretnostController {
         return new ResponseEntity<>(nepokretnostiDTO, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<NepokretnostDTO> getNepokretnost(@PathVariable Integer id) {
+    @GetMapping(value = "/{brojParcele}")
+    public ResponseEntity<NepokretnostDTO> getNepokretnost(@PathVariable String brojParcele) {
 
-        Nepokretnost nepokretnost = nepokretnostService.findOne(id);
+        Nepokretnost nepokretnost = nepokretnostService.findOne(brojParcele);
 
         if (nepokretnost == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -60,26 +48,6 @@ public class NepokretnostController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<NepokretnostDTO> saveNepokretnost(@RequestBody NepokretnostDTO nepokretnostDTO) {
 
-        if (nepokretnostDTO.getKatastar() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        Katastar katastar = katastarService.findOneWithNepokretnosti(nepokretnostDTO.getKatastar().getKorisnickoIme());
-
-        if (katastar == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        if (nepokretnostDTO.getGradjanin() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        Gradjanin gradjanin = gradjaninService.findOneWithNepokretnosti(nepokretnostDTO.getGradjanin().getKorisnickoIme());
-
-        if (gradjanin == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
         Nepokretnost nepokretnost = new Nepokretnost();
         nepokretnost.setAdresa(nepokretnostDTO.getAdresa());
         nepokretnost.setBrojParcele(nepokretnostDTO.getBrojParcele());
@@ -88,69 +56,55 @@ public class NepokretnostController {
         nepokretnost.setPotes(nepokretnostDTO.getPotes());
         nepokretnost.setNacinKoriscenjaZemljista(nepokretnostDTO.getNacinKoriscenjaZemljista());
         nepokretnost.setNacinKoriscenjaObjekta(nepokretnostDTO.getNacinKoriscenjaObjekta());
-        nepokretnost.setKatastar(katastar);
-        nepokretnost.setGradjanin(gradjanin);
+        nepokretnost.setKatastar(nepokretnostDTO.getKatastar());
+        nepokretnost.setStariVlasnik(nepokretnostDTO.getStariVlasnik());
+        nepokretnost.setNoviVlasnik(nepokretnostDTO.getNoviVlasnik());
 
         nepokretnost = nepokretnostService.save(nepokretnost);
         return new ResponseEntity<>(new NepokretnostDTO(nepokretnost), HttpStatus.CREATED);
     }
 
-    @PutMapping(consumes = "application/json")
+    @PutMapping(consumes = "application/json", value = "/izmena")
     public ResponseEntity<NepokretnostDTO> updateNepokretnost(@RequestBody NepokretnostDTO nepokretnostDTO) {
 
-        Nepokretnost nepokretnost = nepokretnostService.findOne(nepokretnostDTO.getId());
+        Nepokretnost nepokretnost = nepokretnostService.findOne(nepokretnostDTO.getBrojParcele());
 
         if (nepokretnost == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        nepokretnost.setAdresa(nepokretnostDTO.getAdresa());
-        nepokretnost.setBrojParcele(nepokretnostDTO.getBrojParcele());
-        nepokretnost.setBrojDelaParcele(nepokretnostDTO.getBrojDelaParcele());
-        nepokretnost.setPovrsina(nepokretnostDTO.getPovrsina());
-        nepokretnost.setPotes(nepokretnostDTO.getPotes());
-        nepokretnost.setNacinKoriscenjaZemljista(nepokretnostDTO.getNacinKoriscenjaZemljista());
-        nepokretnost.setNacinKoriscenjaObjekta(nepokretnostDTO.getNacinKoriscenjaObjekta());
+        nepokretnost.setStariVlasnik(nepokretnostDTO.getStariVlasnik());
+        nepokretnost.setNoviVlasnik(nepokretnostDTO.getNoviVlasnik());
 
         nepokretnost = nepokretnostService.save(nepokretnost);
         return new ResponseEntity<>(new NepokretnostDTO(nepokretnost), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteNepokretnost(@PathVariable Integer id) {
+    @PutMapping(consumes = "application/json", value = "/izmenaDva")
+    public ResponseEntity<NepokretnostDTO> updateNepokretnostTwo(@RequestBody NepokretnostDTO nepokretnostDTO) {
 
-        Nepokretnost nepokretnost = nepokretnostService.findOne(id);
+        Nepokretnost nepokretnost = nepokretnostService.findOne(nepokretnostDTO.getBrojParcele());
+
+        if (nepokretnost == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        nepokretnost.setStariVlasnik(nepokretnostDTO.getStariVlasnik());
+
+        nepokretnost = nepokretnostService.save(nepokretnost);
+        return new ResponseEntity<>(new NepokretnostDTO(nepokretnost), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{brojParcele}")
+    public ResponseEntity<Void> deleteNepokretnost(@PathVariable String brojParcele) {
+
+        Nepokretnost nepokretnost = nepokretnostService.findOne(brojParcele);
 
         if (nepokretnost != null) {
-            nepokretnostService.remove(id);
+            nepokretnostService.remove(brojParcele);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    @GetMapping(value = "/{nepokretnostId}/istorijePromena")
-    public ResponseEntity<List<IstorijaPromenaDTO>> getNepokretnostIstorijePromena(@PathVariable Integer nepokretnostId) {
-
-        Nepokretnost nepokretnost = nepokretnostService.findOneWithIstorijePromena(nepokretnostId);
-
-        if (nepokretnost == null) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
-
-        Set<IstorijaPromena> istorijePromena = nepokretnost.getIstorijePromena();
-        List<IstorijaPromenaDTO> istorijePromenaDTO = new ArrayList<>();
-
-        for (IstorijaPromena ip: istorijePromena) {
-            IstorijaPromenaDTO istorijaPromenaDTO = new IstorijaPromenaDTO();
-            istorijaPromenaDTO.setId(ip.getId());
-            istorijaPromenaDTO.setDatumPromene(ip.getDatumPromene());
-            istorijaPromenaDTO.setNepokretnost(new NepokretnostDTO(ip.getNepokretnost()));
-            istorijaPromenaDTO.setKatastar(new KatastarDTO(ip.getKatastar()));
-
-            istorijePromenaDTO.add(istorijaPromenaDTO);
-        }
-
-        return new ResponseEntity<>(istorijePromenaDTO, HttpStatus.OK);
     }
 }

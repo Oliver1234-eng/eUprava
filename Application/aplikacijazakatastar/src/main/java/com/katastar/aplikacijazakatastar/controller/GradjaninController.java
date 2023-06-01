@@ -1,10 +1,7 @@
 package com.katastar.aplikacijazakatastar.controller;
 
 import com.katastar.aplikacijazakatastar.dto.GradjaninDTO;
-import com.katastar.aplikacijazakatastar.dto.KatastarDTO;
-import com.katastar.aplikacijazakatastar.dto.NepokretnostDTO;
 import com.katastar.aplikacijazakatastar.model.Gradjanin;
-import com.katastar.aplikacijazakatastar.model.Nepokretnost;
 import com.katastar.aplikacijazakatastar.service.GradjaninService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "api/katastar/gradjanin")
@@ -110,36 +106,5 @@ public class GradjaninController {
             gradjaniDTO.add(new GradjaninDTO(g));
         }
         return new ResponseEntity<>(gradjaniDTO, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/{gradjaninKorisnickoIme}/nepokretnosti")
-    public ResponseEntity<List<NepokretnostDTO>> getGradjaninNepokretnosti(@PathVariable String gradjaninKorisnickoIme) {
-
-        Gradjanin gradjanin = gradjaninService.findOneWithNepokretnosti(gradjaninKorisnickoIme);
-
-        if (gradjanin == null) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
-
-        Set<Nepokretnost> nepokretnosti = gradjanin.getNepokretnosti();
-        List<NepokretnostDTO> nepokretnostiDTO = new ArrayList<>();
-
-        for (Nepokretnost n : nepokretnosti) {
-            NepokretnostDTO nepokretnostDTO = new NepokretnostDTO();
-            nepokretnostDTO.setId(n.getId());
-            nepokretnostDTO.setAdresa(n.getAdresa());
-            nepokretnostDTO.setBrojParcele(n.getBrojParcele());
-            nepokretnostDTO.setBrojDelaParcele(n.getBrojDelaParcele());
-            nepokretnostDTO.setPovrsina(n.getPovrsina());
-            nepokretnostDTO.setPotes(n.getPotes());
-            nepokretnostDTO.setNacinKoriscenjaZemljista(n.getNacinKoriscenjaZemljista());
-            nepokretnostDTO.setNacinKoriscenjaObjekta(n.getNacinKoriscenjaObjekta());
-            nepokretnostDTO.setKatastar(new KatastarDTO(n.getKatastar()));
-            nepokretnostDTO.setGradjanin(new GradjaninDTO(n.getGradjanin()));
-
-            nepokretnostiDTO.add(nepokretnostDTO);
-        }
-
-        return new ResponseEntity<>(nepokretnostiDTO, HttpStatus.OK);
     }
 }

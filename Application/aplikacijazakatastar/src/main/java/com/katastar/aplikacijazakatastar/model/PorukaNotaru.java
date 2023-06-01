@@ -4,8 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "istorijapromena")
-public class IstorijaPromena {
+@Table(name = "porukanotaru")
+public class PorukaNotaru {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,6 @@ public class IstorijaPromena {
     @Column(name = "broj_parcele", nullable = false)
     private String brojParcele;
 
-    @NotBlank(message = "Katastar je obavezno polje!")
-    @Column(name = "katastar", nullable = false)
-    private String katastar;
-
     @NotBlank(message = "Stari vlasnik je obavezno polje!")
     @Column(name = "stari_vlasnik", nullable = false)
     private String stariVlasnik;
@@ -31,23 +27,21 @@ public class IstorijaPromena {
     @Column(name = "novi_vlasnik", nullable = false)
     private String noviVlasnik;
 
-    public IstorijaPromena() {
+    public PorukaNotaru() {
 
     }
 
-    public IstorijaPromena(Integer id, String datumPromene, String brojParcele, String katastar, String stariVlasnik, String noviVlasnik) {
+    public PorukaNotaru(Integer id, String datumPromene, String brojParcele, String stariVlasnik, String noviVlasnik) {
         this.id = id;
         this.datumPromene = datumPromene;
         this.brojParcele = brojParcele;
-        this.katastar = katastar;
         this.stariVlasnik = stariVlasnik;
         this.noviVlasnik = noviVlasnik;
     }
 
-    public IstorijaPromena(String datumPromene, String brojParcele, String katastar, String stariVlasnik, String noviVlasnik) {
+    public PorukaNotaru(String datumPromene, String brojParcele, String stariVlasnik, String noviVlasnik) {
         this.datumPromene = datumPromene;
         this.brojParcele = brojParcele;
-        this.katastar = katastar;
         this.stariVlasnik = stariVlasnik;
         this.noviVlasnik = noviVlasnik;
     }
@@ -76,14 +70,6 @@ public class IstorijaPromena {
         this.brojParcele = brojParcele;
     }
 
-    public String getKatastar() {
-        return katastar;
-    }
-
-    public void setKatastar(String katastar) {
-        this.katastar = katastar;
-    }
-
     public String getStariVlasnik() {
         return stariVlasnik;
     }
@@ -108,8 +94,8 @@ public class IstorijaPromena {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        IstorijaPromena i = (IstorijaPromena) o;
-        return id != null && id.equals(i.getId());
+        PorukaNotaru p = (PorukaNotaru) o;
+        return id != null && id.equals(p.getId());
     }
 
     @Override
@@ -119,14 +105,12 @@ public class IstorijaPromena {
 
     @Override
     public String toString() {
-        return "IstorijaPromena{" +
+        return "PorukaNotaru{" +
                 "id=" + id +
                 ", datumPromene='" + datumPromene + '\'' +
                 ", brojParcele='" + brojParcele + '\'' +
-                ", katastar='" + katastar + '\'' +
                 ", stariVlasnik='" + stariVlasnik + '\'' +
                 ", noviVlasnik='" + noviVlasnik + '\'' +
                 '}';
     }
 }
-

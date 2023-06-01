@@ -15,8 +15,8 @@ public class NepokretnostService {
     @Autowired
     private NepokretnostRepository nepokretnostRepository;
 
-    public Nepokretnost findOne(Integer id) {
-        return nepokretnostRepository.findById(id).orElseGet(null);
+    public Nepokretnost findOne(String brojParcele) {
+        return nepokretnostRepository.findById(brojParcele).orElseGet(null);
     }
 
     public List<Nepokretnost> findAll() {
@@ -31,11 +31,7 @@ public class NepokretnostService {
         return nepokretnostRepository.save(nepokretnost);
     }
 
-    public void remove(Integer id) {
-        nepokretnostRepository.deleteById(id);
-    }
-
-    public Nepokretnost findOneWithIstorijePromena(Integer nepokretnostId) {
-        return nepokretnostRepository.findOneWithIstorijePromena(nepokretnostId);
+    public void remove(String brojParcele) {
+        nepokretnostRepository.deleteById(brojParcele);
     }
 }

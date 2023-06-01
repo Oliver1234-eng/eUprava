@@ -1,12 +1,7 @@
 package com.katastar.aplikacijazakatastar.controller;
 
-import com.katastar.aplikacijazakatastar.dto.GradjaninDTO;
-import com.katastar.aplikacijazakatastar.dto.IstorijaPromenaDTO;
 import com.katastar.aplikacijazakatastar.dto.KatastarDTO;
-import com.katastar.aplikacijazakatastar.dto.NepokretnostDTO;
-import com.katastar.aplikacijazakatastar.model.IstorijaPromena;
 import com.katastar.aplikacijazakatastar.model.Katastar;
-import com.katastar.aplikacijazakatastar.model.Nepokretnost;
 import com.katastar.aplikacijazakatastar.service.KatastarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "api/katastar/katastar")
@@ -113,60 +107,5 @@ public class KatastarController {
         }
         return new ResponseEntity<>(katastriDTO, HttpStatus.OK);
     }
-
-    @GetMapping(value = "/{katastarKorisnickoIme}/nepokretnosti")
-    public ResponseEntity<List<NepokretnostDTO>> getKatastarNepokretnosti(@PathVariable String katastarKorisnickoIme) {
-
-        Katastar katastar = katastarService.findOneWithNepokretnosti(katastarKorisnickoIme);
-
-        if (katastar == null) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
-
-        Set<Nepokretnost> nepokretnosti = katastar.getNepokretnosti();
-        List<NepokretnostDTO> nepokretnostiDTO = new ArrayList<>();
-
-        for (Nepokretnost n : nepokretnosti) {
-            NepokretnostDTO nepokretnostDTO = new NepokretnostDTO();
-            nepokretnostDTO.setId(n.getId());
-            nepokretnostDTO.setAdresa(n.getAdresa());
-            nepokretnostDTO.setBrojParcele(n.getBrojParcele());
-            nepokretnostDTO.setBrojDelaParcele(n.getBrojDelaParcele());
-            nepokretnostDTO.setPovrsina(n.getPovrsina());
-            nepokretnostDTO.setPotes(n.getPotes());
-            nepokretnostDTO.setNacinKoriscenjaZemljista(n.getNacinKoriscenjaZemljista());
-            nepokretnostDTO.setNacinKoriscenjaObjekta(n.getNacinKoriscenjaObjekta());
-            nepokretnostDTO.setKatastar(new KatastarDTO(n.getKatastar()));
-            nepokretnostDTO.setGradjanin(new GradjaninDTO(n.getGradjanin()));
-
-            nepokretnostiDTO.add(nepokretnostDTO);
-        }
-
-        return new ResponseEntity<>(nepokretnostiDTO, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/{katastarKorisnickoIme}/istorijePromena")
-    public ResponseEntity<List<IstorijaPromenaDTO>> getKatastarIstorijePromena(@PathVariable String katastarKorisnickoIme) {
-
-        Katastar katastar = katastarService.findOneWithIstorijePromena(katastarKorisnickoIme);
-
-        if (katastar == null) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
-
-        Set<IstorijaPromena> istorijePromena = katastar.getIstorijePromena();
-        List<IstorijaPromenaDTO> istorijePromenaDTO = new ArrayList<>();
-
-        for (IstorijaPromena ip : istorijePromena) {
-            IstorijaPromenaDTO istorijaPromenaDTO = new IstorijaPromenaDTO();
-            istorijaPromenaDTO.setId(ip.getId());
-            istorijaPromenaDTO.setDatumPromene(ip.getDatumPromene());
-            istorijaPromenaDTO.setNepokretnost(new NepokretnostDTO(ip.getNepokretnost()));
-            istorijaPromenaDTO.setKatastar(new KatastarDTO(ip.getKatastar()));
-
-            istorijePromenaDTO.add(istorijaPromenaDTO);
-        }
-
-        return new ResponseEntity<>(istorijePromenaDTO, HttpStatus.OK);
-    }
 }
+

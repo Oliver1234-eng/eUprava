@@ -2,7 +2,9 @@ package com.katastar.aplikacijazakatastar.repository;
 
 import com.katastar.aplikacijazakatastar.model.IstorijaPromena;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface IstorijaPromenaRepository extends JpaRepository<IstorijaPromena, Integer> {
 
 }

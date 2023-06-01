@@ -1,10 +1,7 @@
 package com.katastar.aplikacijazakatastar.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "gradjanin")
@@ -48,9 +45,6 @@ public class Gradjanin {
     @NotBlank(message = "Lozinka je obavezno polje!")
     @Column(name = "lozinka", nullable = false)
     private String lozinka;
-
-    @OneToMany(mappedBy = "gradjanin", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Nepokretnost> nepokretnosti = new HashSet<Nepokretnost>();
 
     public Gradjanin() {
 
@@ -161,24 +155,6 @@ public class Gradjanin {
         this.lozinka = lozinka;
     }
 
-    public Set<Nepokretnost> getNepokretnosti() {
-        return nepokretnosti;
-    }
-
-    public void setNepokretnosti(Set<Nepokretnost> nepokretnosti) {
-        this.nepokretnosti = nepokretnosti;
-    }
-
-    public void addNepokretnost(Nepokretnost nepokretnost) {
-        nepokretnosti.add(nepokretnost);
-        nepokretnost.setGradjanin(this);
-    }
-
-    public void removeNepokretnost(Nepokretnost nepokretnost) {
-        nepokretnosti.remove(nepokretnost);
-        nepokretnost.setGradjanin(null);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -212,7 +188,6 @@ public class Gradjanin {
                 ", adresa='" + adresa + '\'' +
                 ", korisnickoIme='" + korisnickoIme + '\'' +
                 ", lozinka='" + lozinka + '\'' +
-                ", nepokretnosti=" + nepokretnosti +
                 '}';
     }
 }

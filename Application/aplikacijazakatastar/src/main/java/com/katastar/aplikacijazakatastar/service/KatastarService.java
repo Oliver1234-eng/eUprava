@@ -44,14 +44,6 @@ public class KatastarService {
         katastarRepository.deleteById(korisnickoIme);
     }
 
-    public Katastar findOneWithNepokretnosti(String gradjaninKorisnickoIme) {
-        return katastarRepository.findOneWithNepokretnosti(gradjaninKorisnickoIme);
-    }
-
-    public Katastar findOneWithIstorijePromena(String gradjaninKorisnickoIme) {
-        return katastarRepository.findOneWithIstorijePromena(gradjaninKorisnickoIme);
-    }
-
     public List<Katastar> findByJmbg(String jmbg) {
         return katastarRepository.findAllByJmbg(jmbg);
     }

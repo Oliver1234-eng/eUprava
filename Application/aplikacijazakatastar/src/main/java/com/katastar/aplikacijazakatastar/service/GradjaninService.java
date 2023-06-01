@@ -44,10 +44,6 @@ public class GradjaninService {
         gradjaninRepository.deleteById(korisnickoIme);
     }
 
-    public Gradjanin findOneWithNepokretnosti(String gradjaninKorisnickoIme) {
-        return gradjaninRepository.findOneWithNepokretnosti(gradjaninKorisnickoIme);
-    }
-
     public List<Gradjanin> findByJmbg(String jmbg) {
         return gradjaninRepository.findAllByJmbg(jmbg);
     }

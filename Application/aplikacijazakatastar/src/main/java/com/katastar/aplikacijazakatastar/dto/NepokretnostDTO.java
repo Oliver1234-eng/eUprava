@@ -4,12 +4,8 @@ import com.katastar.aplikacijazakatastar.model.NacinKoriscenjaObjekta;
 import com.katastar.aplikacijazakatastar.model.NacinKoriscenjaZemljista;
 import com.katastar.aplikacijazakatastar.model.Nepokretnost;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-
 public class NepokretnostDTO {
 
-    private Integer id;
     private String adresa;
     private String brojParcele;
     private int brojDelaParcele;
@@ -17,31 +13,28 @@ public class NepokretnostDTO {
     private String potes;
     private NacinKoriscenjaZemljista nacinKoriscenjaZemljista;
     private NacinKoriscenjaObjekta nacinKoriscenjaObjekta;
-    private KatastarDTO katastar;
-    private GradjaninDTO gradjanin;
+    private String katastar;
+    private String stariVlasnik;
+    private String noviVlasnik;
 
     public NepokretnostDTO() {
 
     }
 
     public NepokretnostDTO(Nepokretnost nepokretnost) {
-        id = nepokretnost.getId();
         adresa = nepokretnost.getAdresa();
         brojParcele = nepokretnost.getBrojParcele();
         povrsina = nepokretnost.getPovrsina();
         potes = nepokretnost.getPotes();
         nacinKoriscenjaZemljista = nepokretnost.getNacinKoriscenjaZemljista();
         nacinKoriscenjaObjekta = nepokretnost.getNacinKoriscenjaObjekta();
-        katastar = new KatastarDTO(nepokretnost.getKatastar());
-        gradjanin = new GradjaninDTO(nepokretnost.getGradjanin());
+        katastar = nepokretnost.getKatastar();
+        stariVlasnik = nepokretnost.getStariVlasnik();
+        noviVlasnik = nepokretnost.getNoviVlasnik();
     }
 
-    public Integer getId() {
-        return id;
-    }
+    public NepokretnostDTO(String brojParcele) {
 
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getAdresa() {
@@ -100,19 +93,27 @@ public class NepokretnostDTO {
         this.nacinKoriscenjaObjekta = nacinKoriscenjaObjekta;
     }
 
-    public KatastarDTO getKatastar() {
+    public String getKatastar() {
         return katastar;
     }
 
-    public void setKatastar(KatastarDTO katastar) {
+    public void setKatastar(String katastar) {
         this.katastar = katastar;
     }
 
-    public GradjaninDTO getGradjanin() {
-        return gradjanin;
+    public String getStariVlasnik() {
+        return stariVlasnik;
     }
 
-    public void setGradjanin(GradjaninDTO gradjanin) {
-        this.gradjanin = gradjanin;
+    public void setStariVlasnik(String stariVlasnik) {
+        this.stariVlasnik = stariVlasnik;
+    }
+
+    public String getNoviVlasnik() {
+        return noviVlasnik;
+    }
+
+    public void setNoviVlasnik(String noviVlasnik) {
+        this.noviVlasnik = noviVlasnik;
     }
 }
