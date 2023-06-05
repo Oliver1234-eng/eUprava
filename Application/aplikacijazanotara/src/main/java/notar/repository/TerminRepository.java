@@ -34,4 +34,7 @@ public interface TerminRepository extends JpaRepository<Termin, Long> {
     @Transactional
     @Query(value = "update termini t set t.status_termina = 'ZAVRSEN', t.overen_ugovor = 1 where t.id=?1 and t.status_termina = 'U_TOKU'", nativeQuery = true)
     void overiTermin(Long id);
+
+    @Query(value = "select * from termini", nativeQuery = true)
+    List<Termin> findAlll();
 }

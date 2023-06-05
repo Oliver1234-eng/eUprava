@@ -70,9 +70,10 @@ public class TerminServiceImplementation implements TerminService {
 
         termin.setDatumIvremeSastanka(div);
 
-        Kancelarija kanc = new Kancelarija();
+        Kancelarija kanc = kancelarijaService.findById(parseLong(terminDTO.getKancelarija()));
 
         termin.setNotar(notarService.findById(parseLong("1")));
+
         termin.setKancelarija(kanc);
         termin.setVrstaUgovora(null);
 
@@ -113,7 +114,7 @@ public class TerminServiceImplementation implements TerminService {
 
     @Override
     public List<Termin> findAll() {
-        return terminRepository.findAll();
+        return terminRepository.findAlll();
     }
 
     @Override

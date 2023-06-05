@@ -21,7 +21,7 @@ import lombok.Setter;
 public class Kancelarija {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id", unique = true)
 	private Long id;
 
 	@Column
