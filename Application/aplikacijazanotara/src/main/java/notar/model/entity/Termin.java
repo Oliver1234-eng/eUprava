@@ -28,7 +28,7 @@ public class Termin {
     private Long id;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "kancelarija_id", referencedColumnName = "id", nullable = false)
     private Kancelarija kancelarija;
 
