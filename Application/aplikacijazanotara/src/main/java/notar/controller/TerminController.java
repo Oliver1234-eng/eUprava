@@ -2,6 +2,7 @@ package notar.controller;
 
 import notar.model.dto.OsobaDTO;
 import notar.model.dto.TerminDTO;
+import notar.model.dto.newTerminDTO;
 import notar.model.entity.Svedok;
 import notar.model.entity.Termin;
 import notar.service.functionality.SvedokService;
@@ -29,8 +30,7 @@ public class TerminController {
     }
 
     @PostMapping(value="add/", consumes = "application/json")
-    public ResponseEntity<Termin> saveTermin(@RequestBody TerminDTO terminDTO) {
-
+    public ResponseEntity<Termin> saveTermin(@RequestBody newTerminDTO terminDTO) {
         Termin newTermin = terminService.createTermin(terminDTO);
         return new ResponseEntity<Termin>(newTermin, HttpStatus.CREATED);
     }

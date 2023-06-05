@@ -1,6 +1,8 @@
 package notar.service.implementation;
 import notar.model.dto.TerminDTO;
+import notar.model.dto.newTerminDTO;
 import notar.model.entity.*;
+import notar.model.enumeration.StatusTermina;
 import notar.model.enumeration.VrstaUgovora;
 import notar.repository.*;
 import notar.service.functionality.*;
@@ -9,12 +11,16 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.lang.Long.parseLong;
+import static java.time.LocalTime.parse;
 
 @Service
 public class TerminServiceImplementation implements TerminService {
@@ -51,45 +57,55 @@ public class TerminServiceImplementation implements TerminService {
     @Autowired
     private UgovorRepository ugovorRepository;
     @Override
-    public Termin createTermin(TerminDTO terminDTO) {
+    public Termin createTermin(newTerminDTO terminDTO) {
 
         Termin termin = new Termin();
-        termin.setKancelarija(kancelarijaService.findById(terminDTO.getKancelarija_id()));
-        termin.setDatumIvremeSastanka(terminDTO.getDatumIvremeSastanka());
-        termin.setNotar(notarService.findById(terminDTO.getNotar_id()));
-        termin.setVrstaUgovora(terminDTO.getVrstaUgovora());
 
-        termin.setUgovor(ugovorService.findById(terminDTO.getUgovor_id()));
-        termin.setOverenUgovor(terminDTO.isOverenUgovor());
-        termin.setVremeTrajanja(terminDTO.getVremeTrajanja());
-        termin.setStatusTermina(terminDTO.getStatusTermina());
 
+        String str = terminDTO.getDatum().toString()+"T"+terminDTO.getVreme().toString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-YYYY'T'HH:mm:ss");
+        System.out.println(str);
+        LocalDateTime div = LocalDateTime.parse(str);
+
+
+        termin.setDatumIvremeSastanka(div);
+
+        Kancelarija kanc = new Kancelarija();
+
+        termin.setNotar(notarService.findById(parseLong("1")));
+        termin.setKancelarija(kanc);
+        termin.setVrstaUgovora(null);
+
+        termin.setUgovor(null);
+        termin.setOverenUgovor(false);
+        termin.setVremeTrajanja((short) 30);
+        termin.setStatusTermina(StatusTermina.NA_CEKANJU);
         terminRepository.save(termin);
 
-        List<Stranka> stranke = new ArrayList<>();
-        List<Long> ids = terminDTO.getStranka_ids();
-        if(ids.size()!=0)
-        for(int i = 0; i < terminDTO.getStranka_ids().size(); i++) {
-        StrankaTermin strankaTermin = new StrankaTermin();
-          Stranka stranka = strankaRepository.findById(ids.get(i)).orElse(null);
-          strankaTermin.setStranka(stranka);
-           strankaTermin.setTermin(termin);
-            stranke.add(stranka);
-           strankaTerminiRepository.save(strankaTermin);
-       }
-
-        List<Svedok> svedoci = new ArrayList<>();
-        List<Long> ids1 = terminDTO.getSvedok_ids();
-        if(ids1.size()!=0)
-        for(int i = 0; i < terminDTO.getSvedok_ids().size(); i++) {
-            SvedokTermin svedokTermin = new SvedokTermin();
-            Svedok svedok = svedokRepository.findById(ids1.get(i)).orElse(null);
-            svedokTermin.setSvedok(svedok);
-            System.out.println("svedok id:" + svedokTermin.getSvedok().getId());
-            svedokTermin.setTermin(termin);
-            svedoci.add(svedok);
-            svedokTerminiRepository.save(svedokTermin);
-        }
+//        List<Stranka> stranke = new ArrayList<>();
+//        List<Long> ids = terminDTO.getStranka_ids();
+//        if(ids.size()!=0)
+//        for(int i = 0; i < terminDTO.getStranka_ids().size(); i++) {
+//        StrankaTermin strankaTermin = new StrankaTermin();
+//          Stranka stranka = strankaRepository.findById(ids.get(i)).orElse(null);
+//          strankaTermin.setStranka(stranka);
+//           strankaTermin.setTermin(termin);
+//            stranke.add(stranka);
+//           strankaTerminiRepository.save(strankaTermin);
+//       }
+//
+//        List<Svedok> svedoci = new ArrayList<>();
+//        List<Long> ids1 = terminDTO.getSvedok_ids();
+//        if(ids1.size()!=0)
+//        for(int i = 0; i < terminDTO.getSvedok_ids().size(); i++) {
+//            SvedokTermin svedokTermin = new SvedokTermin();
+//            Svedok svedok = svedokRepository.findById(ids1.get(i)).orElse(null);
+//            svedokTermin.setSvedok(svedok);
+//            System.out.println("svedok id:" + svedokTermin.getSvedok().getId());
+//            svedokTermin.setTermin(termin);
+//            svedoci.add(svedok);
+//            svedokTerminiRepository.save(svedokTermin);
+//        }
 
         return termin;
 
