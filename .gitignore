@@ -523,3 +523,10 @@ Application/notar_db/server-key.pem
 Application/notar_db/sys/sys_config.ibd
 Application/notar_db/undo_001
 Application/notar_db/undo_002
+*.ibt
+Application/katastar_db/ibtmp1
+Application/katastar_db/\#innodb_redo/\#ib_redo10_tmp
+Application/katastar_db/\#innodb_redo/\#ib_redo9
+Application/maticar_db/ibtmp1
+Application/notar_db/\#innodb_redo/\#ib_redo9
+Application/notar_db/ibtmp1
