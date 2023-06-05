@@ -28,8 +28,8 @@ public class Termin {
     private Long id;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "kancelarija_id", referencedColumnName = "id", nullable = false)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "kancelarija_id", referencedColumnName = "id", nullable = true)
     private Kancelarija kancelarija;
 
     @Column
@@ -38,7 +38,7 @@ public class Termin {
     private short vremeTrajanja;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ugovor_id", referencedColumnName = "id", nullable = true)
     private  Ugovor ugovor;
 

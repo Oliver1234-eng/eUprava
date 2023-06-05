@@ -22,10 +22,12 @@ public class KancelarijaTermin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "kancelarija_id", referencedColumnName = "id")
     private Kancelarija kancelarija;
+
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "termin_id", referencedColumnName = "id")
