@@ -1,6 +1,7 @@
 package notar.controller;
 
 import notar.model.dto.OsobaDTO;
+import notar.model.dto.OveraDTO;
 import notar.model.dto.TerminDTO;
 import notar.model.entity.Svedok;
 import notar.model.entity.Termin;
@@ -51,13 +52,13 @@ public class TerminController {
     }
 
     @GetMapping(value = "notar/{id}/")
-    public ResponseEntity<List<Termin>> findByNotar(@PathVariable("id") Long id) {
+    public ResponseEntity<List<Termin>> findByNotar(@PathVariable Long id) {
         return new ResponseEntity<>(terminService.findByNotar(id), HttpStatus.OK);
     }
 
-    @PostMapping(value = "notar/odobri/{id}/")
-    public ResponseEntity<Termin> odobriTermin(@PathVariable("id") Long id) {
-        return new ResponseEntity<Termin>(terminService.odobriTermin(id), HttpStatus.OK);
+    @PostMapping(value = "notar/odobri/")
+    public ResponseEntity<Termin> odobriTermin(@RequestBody OveraDTO overaDTO) {
+        return new ResponseEntity<Termin>(terminService.odobriTermin(overaDTO), HttpStatus.OK);
     }
 
     @PostMapping(value = "notar/zapocni/{id}/")

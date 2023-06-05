@@ -15,8 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UgovorDTO {
 
-    private String brojUgovora;
-
+    private Long id;
     private Notar notar;
 
     private VrstaUgovora vrstaUgovora;
@@ -24,5 +23,7 @@ public class UgovorDTO {
     private LocalDateTime datumOvereUgovora;
 
     private boolean overen;
+
+
 
 }

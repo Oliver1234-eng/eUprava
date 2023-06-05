@@ -22,12 +22,12 @@ public interface TerminRepository extends JpaRepository<Termin, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "update termini t set t.status_termina = 'ZAKAZAN' where t.id=?1 ", nativeQuery = true)
-    void odobriTermin(Long id);
+    @Query(value = "update termini t set t.status_termina = 'ZAKAZAN', t.kancelarija_id =?1 where t.id =?2 ", nativeQuery = true)
+    void odobriTermin(Long kancId, Long terminId);
 
     @Modifying
     @Transactional
-    @Query(value = "update termini t set t.status_termina = 'U_TOKU' where t.id=?1 and t.status_termina = 'ZAKAZAN' ", nativeQuery = true)
+    @Query(value = "update termini t set t.status_termina = 'U_TOKU', where t.id=?1 and t.status_termina = 'ZAKAZAN' ", nativeQuery = true)
     void zapocniTermin(Long id);
 
     @Modifying

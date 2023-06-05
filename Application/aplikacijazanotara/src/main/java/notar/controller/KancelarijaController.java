@@ -35,4 +35,9 @@ public class KancelarijaController {
         Kancelarija kancelarija = kancelarijaService.findById(id);
         return new ResponseEntity<Kancelarija>(kancelarija, HttpStatus.OK);
     }
+    @GetMapping(value = "slobodne/{id}/")
+    public ResponseEntity<List<Kancelarija>> findSlobodneKancelarije(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(kancelarijaService.slobodneKancelarije(id), HttpStatus.OK);
+    }
+
 }

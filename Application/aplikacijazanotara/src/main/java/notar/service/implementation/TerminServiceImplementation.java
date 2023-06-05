@@ -1,4 +1,5 @@
 package notar.service.implementation;
+import notar.model.dto.OveraDTO;
 import notar.model.dto.TerminDTO;
 import notar.model.entity.*;
 import notar.model.enumeration.VrstaUgovora;
@@ -50,6 +51,12 @@ public class TerminServiceImplementation implements TerminService {
 
     @Autowired
     private UgovorRepository ugovorRepository;
+
+    @Autowired
+    private KancelarijaTerminRepository kancelarijaTerminRepository;
+
+    @Autowired
+    private KancelarijaRepository kancelarijaRepository;
     @Override
     public Termin createTermin(TerminDTO terminDTO) {
 
@@ -121,9 +128,22 @@ public class TerminServiceImplementation implements TerminService {
     }
 
     @Override
-    public Termin odobriTermin(Long id) {
-        terminRepository.odobriTermin(id);
-        return terminRepository.findById(id).orElse(null);
+    public Termin odobriTermin(OveraDTO overaDTO) {
+
+        Kancelarija kanc = kancelarijaRepository.getById(overaDTO.getIdKancelarije());
+        Termin termin = terminRepository.findById(overaDTO.getIdTermina()).orElse(null);
+        termin.setKancelarija(kanc);
+
+        KancelarijaTermin kc = new KancelarijaTermin();
+        kc.setTermin(termin);
+        kc.setKancelarija(kanc);
+
+        terminRepository.odobriTermin(kanc.getId(), termin.getId());
+
+        kancelarijaTerminRepository.save(kc);
+
+
+        return terminRepository.findById(termin.getId()).orElse(null);
     }
     @Override
     public Termin zapocniTermin(Long id) {

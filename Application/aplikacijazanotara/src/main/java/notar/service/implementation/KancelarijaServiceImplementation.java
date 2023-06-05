@@ -3,6 +3,7 @@ import notar.model.dto.KancelarijaDTO;
 import notar.model.dto.TerminDTO;
 import notar.model.entity.Kancelarija;
 import notar.model.entity.KancelarijaTermin;
+import notar.model.entity.Termin;
 import notar.repository.KancelarijaRepository;
 import notar.repository.KancelarijaTerminRepository;
 import notar.service.functionality.KancelarijaService;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,8 @@ public class KancelarijaServiceImplementation implements KancelarijaService {
 
     @Autowired
     private KancelarijaTerminRepository kancelarijaTerminRepository;
+
+
 
     @Autowired
     private TerminService terminService;
@@ -44,19 +48,26 @@ public class KancelarijaServiceImplementation implements KancelarijaService {
     }
 
     @Override
-    public List<Kancelarija> slobodneKancelarije(TerminDTO terminDTO) {
+    public List<Kancelarija> slobodneKancelarije(Long id) {
 
+        Termin terminDTO = terminService.findById(id);
         List<Kancelarija> kancelarije = kancelarijaRepository.findAll();
-        List<KancelarijaTermin> instanca = kancelarijaTerminRepository.findAll();
-        for(int i = 0; i < kancelarije.size(); i++)
-            for(int j = 0; j<instanca.size(); j++) {
-                LocalDateTime pocetak = instanca.get(j).getTermin().getDatumIvremeSastanka();
-                if (terminDTO.getDatumIvremeSastanka().isAfter(pocetak) && terminDTO.getVremeTrajanja()<instanca.get(j).getTermin().getVremeTrajanja()) {
-                    kancelarije.remove(i);
-                }
+        List<KancelarijaTermin> ktList = kancelarijaTerminRepository.findAll();
+        List<Kancelarija> slobodne = new ArrayList<>();
+        for(int j = 0; j<kancelarije.size(); j++){
+            boolean overlap = false;
+            for(int i = 0; i < ktList.size(); i++) {
+                if(kancelarije.get(j).getId()==ktList.get(i).getId())
+                if (
+                        terminDTO.getDatumIvremeSastanka().plusMinutes(1).isAfter(ktList.get(i).getTermin().getDatumIvremeSastanka())
+                                &&
+                                terminDTO.getDatumIvremeSastanka().plusMinutes(29).isBefore(ktList.get(i).getTermin().getDatumIvremeSastanka().plusMinutes(30))
+                )
+                    overlap = true;
             }
+            if(overlap==false) slobodne.add(kancelarije.get(j));
+        }
         return kancelarije;
     }
-
 
 }

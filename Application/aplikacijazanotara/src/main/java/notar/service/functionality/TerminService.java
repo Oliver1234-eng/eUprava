@@ -1,5 +1,6 @@
 package notar.service.functionality;
 
+import notar.model.dto.OveraDTO;
 import notar.model.dto.TerminDTO;
 import notar.model.entity.Termin;
 
@@ -20,7 +21,7 @@ public interface TerminService {
 
     public List<Termin> findNaCekanju();
 
-    public Termin odobriTermin(Long id);
+    public Termin odobriTermin(OveraDTO overaDTO);
 
     public Termin zapocniTermin(Long id);
 

@@ -15,5 +15,6 @@ public interface KancelarijaService {
 
     public Kancelarija findById(Long id);
 
-    public List<Kancelarija> slobodneKancelarije(TerminDTO terminDTO);
+    public List<Kancelarija> slobodneKancelarije(Long id);
+
 }
