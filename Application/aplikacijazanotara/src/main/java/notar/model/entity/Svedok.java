@@ -1,6 +1,7 @@
 package notar.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Svedok extends Osoba{
     @Column(name = "id", unique = true, nullable = false)
     protected Long id;
 
+    @JsonIgnore
     @ManyToMany()
     @JoinTable(
             name = "svedok_termin",

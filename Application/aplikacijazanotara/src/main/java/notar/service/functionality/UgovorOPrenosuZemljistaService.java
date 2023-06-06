@@ -16,7 +16,7 @@ public class UgovorOPrenosuZemljistaService {
     @Autowired
     private UgovorOPrenosuZemljistaRepository ugovorOPrenosuZemljistaRepository;
 
-    public UgovorOPrenosuZemljista findOne(Integer id) {
+    public UgovorOPrenosuZemljista findOne(Long id) {
         return ugovorOPrenosuZemljistaRepository.findById(id).orElseGet(null);
     }
 
@@ -32,7 +32,7 @@ public class UgovorOPrenosuZemljistaService {
         return ugovorOPrenosuZemljistaRepository.save(ugovorOPrenosuZemljista);
     }
 
-    public void remove(Integer id) {
+    public void remove(Long id) {
         ugovorOPrenosuZemljistaRepository.deleteById(id);
     }
 }

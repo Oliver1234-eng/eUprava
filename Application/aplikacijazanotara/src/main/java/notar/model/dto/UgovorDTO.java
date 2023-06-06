@@ -1,6 +1,7 @@
 package notar.model.dto;
 
 import notar.model.entity.Notar;
+import notar.model.entity.Termin;
 import notar.model.enumeration.VrstaUgovora;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,10 +20,21 @@ public class UgovorDTO {
 
     private Notar notar;
 
+    private Termin termin;
+
     private VrstaUgovora vrstaUgovora;
 
-    private LocalDateTime datumOvereUgovora;
+    private LocalDateTime datumIvremeSastanka;
 
     private boolean overen;
 
+    private String potpis;
+
+    private String dokument;
+
+    private String brojParcele;
+
+    private String stariVlasnik;
+
+    private String noviVlasnik;
 }

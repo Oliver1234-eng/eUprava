@@ -1,6 +1,7 @@
 package notar.repository;
 
 import notar.model.entity.Termin;
+import notar.model.enumeration.VrstaUgovora;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,14 +28,25 @@ public interface TerminRepository extends JpaRepository<Termin, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "update termini t set t.status_termina = 'U_TOKU' where t.id=?1 and t.status_termina = 'ZAKAZAN' ", nativeQuery = true)
+    @Query(value = "update termini t set t.status_termina = 'ZAKAZAN', t.vrsta_ugovora=?1, t.stranka_id=?2  where t.id=?3 ", nativeQuery = true)
+    void zakaziTermin(String vrstaUgovora, long stranka_id, long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update termini t set t.status_termina = 'U_TOKU', t.status_termina = 'ZAKAZAN' where t.id=?1  ", nativeQuery = true)
     void zapocniTermin(Long id);
 
     @Modifying
     @Transactional
-    @Query(value = "update termini t set t.status_termina = 'ZAVRSEN', t.overen_ugovor = 1 where t.id=?1 and t.status_termina = 'U_TOKU'", nativeQuery = true)
+    @Query(value = "update termini t set t.status_termina = 'ZAVRSEN', t.overen_ugovor = 1 where t.id=?1", nativeQuery = true)
     void overiTermin(Long id);
 
     @Query(value = "select * from termini", nativeQuery = true)
     List<Termin> findAlll();
+
+    @Query(value = "select * from termini t where t.status_termina = 'KREIRAN'", nativeQuery = true)
+    List<Termin> findSlobodni();
+
+    @Query(value = "select * from termini t where t.status_termina = 'ZAKAZAN'", nativeQuery = true)
+    List<Termin> findZakazani();
 }

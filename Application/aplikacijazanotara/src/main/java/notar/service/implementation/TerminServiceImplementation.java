@@ -80,7 +80,7 @@ public class TerminServiceImplementation implements TerminService {
         termin.setUgovor(null);
         termin.setOverenUgovor(false);
         termin.setVremeTrajanja((short) 30);
-        termin.setStatusTermina(StatusTermina.NA_CEKANJU);
+        termin.setStatusTermina(StatusTermina.KREIRAN);
         terminRepository.save(termin);
 
 //        List<Stranka> stranke = new ArrayList<>();
@@ -142,6 +142,18 @@ public class TerminServiceImplementation implements TerminService {
         terminRepository.odobriTermin(id);
         return terminRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Termin zakaziTermin(TerminDTO terminDTO) {
+
+        Termin termin = terminRepository.findById(terminDTO.getId()).orElse(null);
+        termin.setStranka(strankaRepository.findById(terminDTO.getStranka_id()).orElse(null));
+        termin.setVrstaUgovora(terminDTO.getVrstaUgovora());
+        termin.setStatusTermina(StatusTermina.ZAKAZAN);
+
+        terminRepository.zakaziTermin(termin.getVrstaUgovora().toString(), termin.getStranka().getId(), termin.getId());
+        return terminRepository.findById(termin.getId()).orElse(null);
+    }
     @Override
     public Termin zapocniTermin(Long id) {
         terminRepository.zapocniTermin(id);
@@ -163,34 +175,38 @@ public class TerminServiceImplementation implements TerminService {
 
         return termin;
     }
-
     @Override
-    public List<LocalTime> slobodniTermini(TerminDTO terminDTO) {
+    public List<Termin> zakazaniTermini() {
+        return terminRepository.findZakazani();
+    }
+    @Override
+    public List<Termin> slobodniTermini() {
+        return terminRepository.findSlobodni();
 
-        List<Termin> zauzetiTermini = findByNotar(terminDTO.getNotar_id());
-        List<LocalTime> termini = new ArrayList<LocalTime>(){};
-        for(int x = 0; x < 24; x++){
-            LocalTime termin = LocalTime.of(8, 0, 0).plusMinutes(x*30);
-            termini.add(termin);
-        }
-        List<LocalTime> slobodniTermini = new ArrayList<LocalTime>(){};
-
-
-
-        for(int j = 0; j<termini.size(); j++){
-            boolean overlap = false;
-            for(int i = 0; i < zauzetiTermini.size(); i++) {
-            if (
-                    termini.get(j).plusMinutes(1).isAfter(zauzetiTermini.get(i).getDatumIvremeSastanka().toLocalTime())
-                            &&
-                            termini.get(j).plusMinutes(29).isBefore(zauzetiTermini.get(i).getDatumIvremeSastanka().plusMinutes(30).toLocalTime())
-            )
-                overlap = true;
-        }
-            if(overlap==false) slobodniTermini.add(termini.get(j));
-        }
+//        List<Termin> zauzetiTermini = findByNotar(terminDTO.getNotar_id());
+//        List<LocalTime> termini = new ArrayList<LocalTime>(){};
+//        for(int x = 0; x < 24; x++){
+//            LocalTime termin = LocalTime.of(8, 0, 0).plusMinutes(x*30);
+//            termini.add(termin);
+//        }
+//        List<LocalTime> slobodniTermini = new ArrayList<LocalTime>(){};
+//
+//
+//
+//        for(int j = 0; j<termini.size(); j++){
+//            boolean overlap = false;
+//            for(int i = 0; i < zauzetiTermini.size(); i++) {
+//            if (
+//                    termini.get(j).plusMinutes(1).isAfter(zauzetiTermini.get(i).getDatumIvremeSastanka().toLocalTime())
+//                            &&
+//                            termini.get(j).plusMinutes(29).isBefore(zauzetiTermini.get(i).getDatumIvremeSastanka().plusMinutes(30).toLocalTime())
+//            )
+//                overlap = true;
+//        }
+//            if(overlap==false) slobodniTermini.add(termini.get(j));
+//        }
        // List<LocalTime> slobodniTermini1 = slobodniTermini.stream().distinct().collect(Collectors.toList());
-        return slobodniTermini;
+
     }
 
 

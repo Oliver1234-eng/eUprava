@@ -54,8 +54,8 @@ public class Termin {
     @JoinColumn(name = "notar_id", referencedColumnName = "id", nullable = true)
     private Notar notar;
 
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "stranka_id", referencedColumnName = "id", nullable = true)
     private Stranka stranka;
 

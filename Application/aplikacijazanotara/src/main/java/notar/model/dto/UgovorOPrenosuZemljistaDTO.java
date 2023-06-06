@@ -1,95 +1,27 @@
 package notar.model.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import notar.model.entity.Notar;
 import notar.model.entity.UgovorOPrenosuZemljista;
+import notar.model.enumeration.VrstaUgovora;
 
+import java.time.LocalDateTime;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UgovorOPrenosuZemljistaDTO {
 
-    private Integer id;
-    private String notar;
-    private String vrstaUgovora;
-    private String datumOvere;
-    private String overen;
+    private Long id;
+    private Notar notar;
+    private VrstaUgovora vrstaUgovora;
+    private LocalDateTime datumOvere;
+    private boolean overen;
     private String brojParcele;
     private String stariVlasnik;
     private String noviVlasnik;
-
-    public UgovorOPrenosuZemljistaDTO() {
-
-    }
-
-    public UgovorOPrenosuZemljistaDTO(UgovorOPrenosuZemljista ugovorOPrenosuZemljista) {
-        id = ugovorOPrenosuZemljista.getId();
-        notar = ugovorOPrenosuZemljista.getNotar();
-        vrstaUgovora = ugovorOPrenosuZemljista.getVrstaUgovora();
-        datumOvere = ugovorOPrenosuZemljista.getDatumOvere();
-        overen = ugovorOPrenosuZemljista.getOveren();
-        brojParcele = ugovorOPrenosuZemljista.getBrojParcele();
-        stariVlasnik = ugovorOPrenosuZemljista.getStariVlasnik();
-        noviVlasnik = ugovorOPrenosuZemljista.getNoviVlasnik();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNotar() {
-        return notar;
-    }
-
-    public void setNotar(String notar) {
-        this.notar = notar;
-    }
-
-    public String getVrstaUgovora() {
-        return vrstaUgovora;
-    }
-
-    public void setVrstaUgovora(String vrstaUgovora) {
-        this.vrstaUgovora = vrstaUgovora;
-    }
-
-    public String getDatumOvere() {
-        return datumOvere;
-    }
-
-    public void setDatumOvere(String datumOvere) {
-        this.datumOvere = datumOvere;
-    }
-
-    public String getOveren() {
-        return overen;
-    }
-
-    public void setOveren(String overen) {
-        this.overen = overen;
-    }
-
-    public String getBrojParcele() {
-        return brojParcele;
-    }
-
-    public void setBrojParcele(String brojParcele) {
-        this.brojParcele = brojParcele;
-    }
-
-    public String getStariVlasnik() {
-        return stariVlasnik;
-    }
-
-    public void setStariVlasnik(String stariVlasnik) {
-        this.stariVlasnik = stariVlasnik;
-    }
-
-    public String getNoviVlasnik() {
-        return noviVlasnik;
-    }
-
-    public void setNoviVlasnik(String noviVlasnik) {
-        this.noviVlasnik = noviVlasnik;
-    }
 }

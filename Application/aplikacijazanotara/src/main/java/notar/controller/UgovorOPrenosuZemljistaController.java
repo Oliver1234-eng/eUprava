@@ -20,20 +20,21 @@ public class UgovorOPrenosuZemljistaController {
     private UgovorOPrenosuZemljistaService ugovorOPrenosuZemljistaService;
 
     @GetMapping
-    public ResponseEntity<List<UgovorOPrenosuZemljistaDTO>> getUgovori() {
+    public ResponseEntity<List<UgovorOPrenosuZemljista>> getUgovori() {
 
         List<UgovorOPrenosuZemljista> ugovori = ugovorOPrenosuZemljistaService.findAll();
 
-        List<UgovorOPrenosuZemljistaDTO> ugovoriDTO = new ArrayList<>();
+        List<UgovorOPrenosuZemljista> ugovoriDTO = new ArrayList<>();
         for (UgovorOPrenosuZemljista u : ugovori) {
-            ugovoriDTO.add(new UgovorOPrenosuZemljistaDTO(u));
+
+            ugovoriDTO.add(u);
         }
 
         return new ResponseEntity<>(ugovoriDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UgovorOPrenosuZemljistaDTO> getUgovor(@PathVariable Integer id) {
+    public ResponseEntity<UgovorOPrenosuZemljista> getUgovor(@PathVariable Long id) {
 
         UgovorOPrenosuZemljista ugovorOPrenosuZemljista = ugovorOPrenosuZemljistaService.findOne(id);
 
@@ -41,28 +42,27 @@ public class UgovorOPrenosuZemljistaController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(new UgovorOPrenosuZemljistaDTO(ugovorOPrenosuZemljista), HttpStatus.OK);
+        return new ResponseEntity<>(ugovorOPrenosuZemljista, HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<UgovorOPrenosuZemljistaDTO> saveUgovor(@RequestBody UgovorOPrenosuZemljistaDTO ugovorOPrenosuZemljistaDTO) {
-
+    public ResponseEntity<UgovorOPrenosuZemljista> saveUgovor(@RequestBody UgovorOPrenosuZemljistaDTO ugovorOPrenosuZemljistaDTO) {
 
         UgovorOPrenosuZemljista ugovorOPrenosuZemljista = new UgovorOPrenosuZemljista();
         ugovorOPrenosuZemljista.setNotar(ugovorOPrenosuZemljistaDTO.getNotar());
         ugovorOPrenosuZemljista.setVrstaUgovora(ugovorOPrenosuZemljistaDTO.getVrstaUgovora());
-        ugovorOPrenosuZemljista.setDatumOvere(ugovorOPrenosuZemljistaDTO.getDatumOvere());
-        ugovorOPrenosuZemljista.setOveren(ugovorOPrenosuZemljistaDTO.getOveren());
+        ugovorOPrenosuZemljista.setDatumOvereUgovora(ugovorOPrenosuZemljistaDTO.getDatumOvere());
+        ugovorOPrenosuZemljista.setOveren(ugovorOPrenosuZemljistaDTO.isOveren());
         ugovorOPrenosuZemljista.setBrojParcele(ugovorOPrenosuZemljistaDTO.getBrojParcele());
         ugovorOPrenosuZemljista.setStariVlasnik(ugovorOPrenosuZemljistaDTO.getStariVlasnik());
         ugovorOPrenosuZemljista.setNoviVlasnik(ugovorOPrenosuZemljistaDTO.getNoviVlasnik());
 
         ugovorOPrenosuZemljista = ugovorOPrenosuZemljistaService.save(ugovorOPrenosuZemljista);
-        return new ResponseEntity<>(new UgovorOPrenosuZemljistaDTO(ugovorOPrenosuZemljista), HttpStatus.CREATED);
+        return new ResponseEntity<>(ugovorOPrenosuZemljista, HttpStatus.CREATED);
     }
 
     @PutMapping(consumes = "application/json")
-    public ResponseEntity<UgovorOPrenosuZemljistaDTO> updateUgovor(@RequestBody UgovorOPrenosuZemljistaDTO ugovorOPrenosuZemljistaDTO) {
+    public ResponseEntity<UgovorOPrenosuZemljista> updateUgovor(@RequestBody UgovorOPrenosuZemljistaDTO ugovorOPrenosuZemljistaDTO) {
 
         UgovorOPrenosuZemljista ugovorOPrenosuZemljista = ugovorOPrenosuZemljistaService.findOne(ugovorOPrenosuZemljistaDTO.getId());
 
@@ -72,18 +72,18 @@ public class UgovorOPrenosuZemljistaController {
 
         ugovorOPrenosuZemljista.setNotar(ugovorOPrenosuZemljistaDTO.getNotar());
         ugovorOPrenosuZemljista.setVrstaUgovora(ugovorOPrenosuZemljistaDTO.getVrstaUgovora());
-        ugovorOPrenosuZemljista.setDatumOvere(ugovorOPrenosuZemljistaDTO.getDatumOvere());
-        ugovorOPrenosuZemljista.setOveren(ugovorOPrenosuZemljistaDTO.getOveren());
+        ugovorOPrenosuZemljista.setDatumOvereUgovora(ugovorOPrenosuZemljistaDTO.getDatumOvere());
+        ugovorOPrenosuZemljista.setOveren(ugovorOPrenosuZemljistaDTO.isOveren());
         ugovorOPrenosuZemljista.setBrojParcele(ugovorOPrenosuZemljistaDTO.getBrojParcele());
         ugovorOPrenosuZemljista.setStariVlasnik(ugovorOPrenosuZemljistaDTO.getStariVlasnik());
         ugovorOPrenosuZemljista.setNoviVlasnik(ugovorOPrenosuZemljistaDTO.getNoviVlasnik());
 
         ugovorOPrenosuZemljista = ugovorOPrenosuZemljistaService.save(ugovorOPrenosuZemljista);
-        return new ResponseEntity<>(new UgovorOPrenosuZemljistaDTO(ugovorOPrenosuZemljista), HttpStatus.OK);
+        return new ResponseEntity<>(ugovorOPrenosuZemljista, HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json", value = "/overiUgovor")
-    public ResponseEntity<UgovorOPrenosuZemljistaDTO> updateUgovorPotvrda(@RequestBody UgovorOPrenosuZemljistaDTO ugovorOPrenosuZemljistaDTO) {
+    public ResponseEntity<UgovorOPrenosuZemljista> updateUgovorPotvrda(@RequestBody UgovorOPrenosuZemljistaDTO ugovorOPrenosuZemljistaDTO) {
 
         UgovorOPrenosuZemljista ugovorOPrenosuZemljista = ugovorOPrenosuZemljistaService.findOne(ugovorOPrenosuZemljistaDTO.getId());
 
@@ -91,14 +91,14 @@ public class UgovorOPrenosuZemljistaController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        ugovorOPrenosuZemljista.setOveren(ugovorOPrenosuZemljistaDTO.getOveren());
+        ugovorOPrenosuZemljista.setOveren(ugovorOPrenosuZemljistaDTO.isOveren());
 
         ugovorOPrenosuZemljista = ugovorOPrenosuZemljistaService.save(ugovorOPrenosuZemljista);
-        return new ResponseEntity<>(new UgovorOPrenosuZemljistaDTO(ugovorOPrenosuZemljista), HttpStatus.OK);
+        return new ResponseEntity<>(ugovorOPrenosuZemljista, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteTermin(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteTermin(@PathVariable Long id) {
 
         UgovorOPrenosuZemljista ugovorOPrenosuZemljista = ugovorOPrenosuZemljistaService.findOne(id);
 

@@ -24,9 +24,13 @@ public class TerminController {
     @Autowired
     private TerminService terminService;
 
-    @GetMapping(value="slobodniTermini/", consumes = "application/json")
-    public ResponseEntity<List<LocalTime>> rezervisiTermin(@RequestBody TerminDTO terminDTO) {
-        return new ResponseEntity<>(terminService.slobodniTermini(terminDTO), HttpStatus.OK);
+    @GetMapping(value="slobodniTermini/")
+    public ResponseEntity<List<Termin>> rezervisiTermin() {
+        return new ResponseEntity<>(terminService.slobodniTermini(), HttpStatus.OK);
+    }
+    @GetMapping(value="zakazaniTermini/")
+    public ResponseEntity<List<Termin>> zakazaniTermini() {
+        return new ResponseEntity<>(terminService.zakazaniTermini(), HttpStatus.OK);
     }
 
     @PostMapping(value="add/", consumes = "application/json")
@@ -58,6 +62,10 @@ public class TerminController {
     @PostMapping(value = "notar/odobri/{id}/")
     public ResponseEntity<Termin> odobriTermin(@PathVariable("id") Long id) {
         return new ResponseEntity<Termin>(terminService.odobriTermin(id), HttpStatus.OK);
+    }
+    @PostMapping(value = "notar/zakazi/")
+    public ResponseEntity<Termin> zakaziTermin(@RequestBody TerminDTO terminDTO) {
+        return new ResponseEntity<Termin>(terminService.zakaziTermin(terminDTO), HttpStatus.OK);
     }
 
     @PostMapping(value = "notar/zapocni/{id}/")

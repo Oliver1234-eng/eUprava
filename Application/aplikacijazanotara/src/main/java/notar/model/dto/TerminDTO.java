@@ -2,6 +2,7 @@ package notar.model.dto;
 
 import notar.model.entity.Kancelarija;
 import notar.model.entity.Notar;
+import notar.model.entity.Stranka;
 import notar.model.entity.Ugovor;
 import notar.model.enumeration.StatusTermina;
 import notar.model.enumeration.VrstaUgovora;
@@ -19,6 +20,8 @@ import java.util.List;
 @NoArgsConstructor
 public class TerminDTO {
 
+    private long id;
+
     private long notar_id;
 
     private long kancelarija_id;
@@ -35,7 +38,7 @@ public class TerminDTO {
 
     private boolean overenUgovor;
 
-    private List<Long> stranka_ids;
+    private long stranka_id;
 
     private List<Long> svedok_ids;
 }

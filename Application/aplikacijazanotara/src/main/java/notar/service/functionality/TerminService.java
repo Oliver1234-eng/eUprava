@@ -22,11 +22,11 @@ public interface TerminService {
     public List<Termin> findNaCekanju();
 
     public Termin odobriTermin(Long id);
-
+    public Termin zakaziTermin(TerminDTO terminDTO);
     public Termin zapocniTermin(Long id);
 
     public Termin overiTermin(Long id);
 
-    public List<LocalTime> slobodniTermini(TerminDTO terminDTO);
-
+    public List<Termin> slobodniTermini();
+    public List<Termin> zakazaniTermini();
 }
