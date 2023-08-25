@@ -31,6 +31,12 @@ public interface TerminRepository extends JpaRepository<Termin, Long> {
     @Query(value = "update termini t set t.status_termina = 'ZAKAZAN', t.vrsta_ugovora=?1, t.stranka_id=?2  where t.id=?3 ", nativeQuery = true)
     void zakaziTermin(String vrstaUgovora, long stranka_id, long id);
 
+
+    @Modifying
+    @Transactional
+    @Query(value = "update termini t set t.status_termina = 'OTKAZAN' where t.id=?1 ", nativeQuery = true)
+    void otkaziTermin(long id);
+
     @Modifying
     @Transactional
     @Query(value = "update termini t set t.status_termina = 'U_TOKU', t.status_termina = 'ZAKAZAN' where t.id=?1  ", nativeQuery = true)

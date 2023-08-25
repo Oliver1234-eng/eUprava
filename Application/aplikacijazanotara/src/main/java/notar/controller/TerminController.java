@@ -68,6 +68,11 @@ public class TerminController {
         return new ResponseEntity<Termin>(terminService.zakaziTermin(terminDTO), HttpStatus.OK);
     }
 
+    @PostMapping(value = "notar/otkazi/")
+    public ResponseEntity<Termin> otkaziTermin(@RequestBody TerminDTO terminDTO) {
+        return new ResponseEntity<Termin>(terminService.otkaziTermin(terminDTO), HttpStatus.OK);
+    }
+
     @PostMapping(value = "notar/zapocni/{id}/")
     public ResponseEntity<Termin> zapocniTermin(@PathVariable("id") Long id) {
         return new ResponseEntity<Termin>(terminService.zapocniTermin(id), HttpStatus.OK);

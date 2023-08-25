@@ -147,11 +147,23 @@ public class TerminServiceImplementation implements TerminService {
     public Termin zakaziTermin(TerminDTO terminDTO) {
 
         Termin termin = terminRepository.findById(terminDTO.getId()).orElse(null);
-        termin.setStranka(strankaRepository.findById(terminDTO.getStranka_id()).orElse(null));
+        termin.setStranka(strankaRepository.findByJMBG(terminDTO.getStranka_id()));
         termin.setVrstaUgovora(terminDTO.getVrstaUgovora());
         termin.setStatusTermina(StatusTermina.ZAKAZAN);
 
         terminRepository.zakaziTermin(termin.getVrstaUgovora().toString(), termin.getStranka().getId(), termin.getId());
+        return terminRepository.findById(termin.getId()).orElse(null);
+    }
+
+    @Override
+    public Termin otkaziTermin(TerminDTO terminDTO) {
+
+        Termin termin = terminRepository.findById(terminDTO.getId()).orElse(null);
+        termin.setStranka(strankaRepository.findByJMBG(terminDTO.getStranka_id()));
+        termin.setVrstaUgovora(terminDTO.getVrstaUgovora());
+        termin.setStatusTermina(StatusTermina.OTKAZAN);
+
+        terminRepository.otkaziTermin(terminDTO.getId());
         return terminRepository.findById(termin.getId()).orElse(null);
     }
     @Override

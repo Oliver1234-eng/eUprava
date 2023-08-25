@@ -38,7 +38,7 @@ public class TerminDTO {
 
     private boolean overenUgovor;
 
-    private long stranka_id;
+    private String stranka_id;
 
     private List<Long> svedok_ids;
 }

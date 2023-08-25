@@ -23,6 +23,7 @@ public interface TerminService {
 
     public Termin odobriTermin(Long id);
     public Termin zakaziTermin(TerminDTO terminDTO);
+    public Termin otkaziTermin(TerminDTO terminDTO);
     public Termin zapocniTermin(Long id);
 
     public Termin overiTermin(Long id);
